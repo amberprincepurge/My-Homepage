@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: dump include and layout
+      - name: dump homepage publications
         run: |
-          for f in _includes/archive-single.html _layouts/single.html; do
+          for f in _publications/*.md; do
             echo "=====BEGIN $f====="
             cat "$f"
             echo "=====END $f====="
