@@ -10,16 +10,16 @@ jobs:
       - name: dump homepage publications
         run: |
           for f in _publications/*.md; do
-            echo "===== $f ====="
+            echo "=====BEGIN $f====="
             cat "$f"
-            echo
+            echo "=====END $f====="
           done
-      - name: clone and dump paper repos
+      - name: dump missing repo readmes
         run: |
-          for r in llm-adaptive-learning ipsum-lorem-all-you-need enhancing-llms optimizing-llms-contextual-reasoning LUFFY BenchTasksCollv3 gznfnlic; do
+          for r in llm-adaptive-learning ipsum-lorem-all-you-need; do
             echo "##### REPO $r #####"
-            git clone --depth 1 "https://github.com/amberprincepurge/$r.git" "/tmp/$r" 2>&1 | tail -2 || true
-            if [ -f "/tmp/$r/README.md" ]; then cat "/tmp/$r/README.md"; fi
+            git clone --depth 1 "https://github.com/amberprincepurge/$r.git" "/tmp/$r" 2>&1 | tail -1 || true
+            cat "/tmp/$r/README.md" || echo "(no README)"
             echo "--- top-level files ---"
             ls "/tmp/$r" || true
             echo
