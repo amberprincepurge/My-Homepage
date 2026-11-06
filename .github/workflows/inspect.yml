@@ -7,20 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: dump homepage publications
+      - name: dump include and layout
         run: |
-          for f in _publications/*.md; do
+          for f in _includes/archive-single.html _layouts/single.html; do
             echo "=====BEGIN $f====="
             cat "$f"
             echo "=====END $f====="
-          done
-      - name: dump missing repo readmes
-        run: |
-          for r in llm-adaptive-learning ipsum-lorem-all-you-need; do
-            echo "##### REPO $r #####"
-            git clone --depth 1 "https://github.com/amberprincepurge/$r.git" "/tmp/$r" 2>&1 | tail -1 || true
-            cat "/tmp/$r/README.md" || echo "(no README)"
-            echo "--- top-level files ---"
-            ls "/tmp/$r" || true
-            echo
           done
