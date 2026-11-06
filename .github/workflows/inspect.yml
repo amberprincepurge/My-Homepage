@@ -1,0 +1,26 @@
+name: inspect
+on:
+  push:
+    branches: [master]
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: dump homepage publications
+        run: |
+          for f in _publications/*.md; do
+            echo "===== $f ====="
+            cat "$f"
+            echo
+          done
+      - name: clone and dump paper repos
+        run: |
+          for r in llm-adaptive-learning ipsum-lorem-all-you-need enhancing-llms optimizing-llms-contextual-reasoning LUFFY BenchTasksCollv3 gznfnlic; do
+            echo "##### REPO $r #####"
+            git clone --depth 1 "https://github.com/amberprincepurge/$r.git" "/tmp/$r" 2>&1 | tail -2 || true
+            if [ -f "/tmp/$r/README.md" ]; then cat "/tmp/$r/README.md"; fi
+            echo "--- top-level files ---"
+            ls "/tmp/$r" || true
+            echo
+          done
